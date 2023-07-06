@@ -5,7 +5,24 @@ from rock import Rock
 from star import Star
 from bullet import Bullet
 
-'''Asteroids: overall game class that creates and controls all objects.
+'''
+Style Choices:
+I have chosen to utilize specific module imports for concise, readable code.
+The minimal risk of catasrophic naming errors within such a small program program justify this import style.
+
+I have also chosen to specifically visually close each function or method with a return statement
+This style choice facilitates my own readability preferences.
+The methods without specific return values would have returned "None" anyways, and the files are not large to begin with.
+As such, this style choice does not impact functionality, nor does it contribute to bulking an already large codebase.
+
+Changes from class assignment: 
+-future implimentation of exploding rocks
+-future implimentation of game restart option
+-compliance with python styleguide recommendations: nearly all modules, datamembers, methods, and variables have been renamed
+    to comply with python styleguide as well we to facilitate adherance to general industry standards and best practices to the best of my knowledge.
+-future implimentation of error handling
+
+Asteroids: overall game class that creates and controls all objects.
 Data Members:
     _world_width, _world_height the dimensions of the window, in pixels.
     _ship the Ship object created. _rocks a list of all Rock objects created. _objects a list of all objects created.
@@ -30,16 +47,11 @@ class Asteroids():
         
         '''make rocks'''
         for i in range(8):
-            x = randrange(0,world_width)
-            y = randrange(0,world_height)
-            rock = Rock(x,y,world_width,world_height)
-            self._rocks.append(rock)
+            self._rocks.append(Rock(randrange(0,world_width),randrange(0,world_height),world_width,world_height))
         
         '''make stars'''
         for i in range(30):
-            x = randrange(0,world_width)
-            y = randrange(0,world_height)
-            self._stars.append(Star(x,y,world_width,world_height))
+            self._stars.append(Star(randrange(0,world_width),randrange(0,world_height),world_width,world_height))
         
         self._objects = [self._ship] + self._rocks + self._stars + self._bullets
         return
@@ -61,14 +73,15 @@ class Asteroids():
 
     def turn_ship_left(self, delta_rotation):
         self._ship.rotate(-delta_rotation)
-        #return delta_rotation
+        return delta_rotation
 
     def turn_ship_right(self, delta_rotation):
         self._ship.rotate(delta_rotation)
-        #return delta_rotation
+        return delta_rotation
 
     def accelerate_ship(self, delta_velocity):
         self._ship.accelerate(delta_velocity)
+        return delta_velocity
          
     def fire(self):
         '''make bullets by calling fire inside ship. append bullet list and all objects list'''
@@ -76,13 +89,15 @@ class Asteroids():
             b = self._ship.fire()
             self._bullets.append(b)
             self._objects.append(b)
+        return
 
     def collide_ship_and_bullets(self):
         for bullet in self._bullets:
             if self._ship.hits(bullet):
                 self._ship.set_active(False)
                 bullet.set_active(False)
-
+        return 
+    
     def collide_ship_and_rocks(self):
         for rock in self._rocks:
             if self._ship.hits(rock):

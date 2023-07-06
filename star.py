@@ -13,10 +13,10 @@ class Star(Circle):
 
     def __init__(self,x,y,world_width,world_height):
         super().__init__(x, y, 0, 0, 0, 2, world_width, world_height)
-        self.mBrightness = (10)
+        self._star_brightness = (10)
         
     def getBrightness(self):
-        return self.mBrightness
+        return self._star_brightness
     
     def setBrightness(self,brightness):
         if 15 <= brightness <= 240:
